@@ -1,0 +1,3 @@
+rootProject.name = 'artistLookups'
+
+include ':app'
