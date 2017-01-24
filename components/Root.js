@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import {
   StyleSheet,
   Text,
+  StatusBar,
+  TextInput,
   View
 } from 'react-native';
 import colors from '../utils/styleColors';
@@ -10,16 +12,13 @@ export default class Root extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <StatusBar barStyle="light-content" />
+
         <Text style={styles.welcome}>
-          Welcome to React Native!
+          Search for Artist!
         </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
+        <TextInput style={ styles.searchBox } />
+
       </View>
     );
   }
@@ -28,18 +27,28 @@ export default class Root extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
     backgroundColor: colors.white,
   },
   welcome: {
     fontSize: 20,
     textAlign: 'center',
-    margin: 10,
+    marginTop: 30,
+    marginLeft: 16,
+    color: colors.blue
   },
   instructions: {
     textAlign: 'center',
     color: colors.black,
     marginBottom: 5,
   },
+  searchBox: {
+    height: 40,
+    borderColor: colors.black,
+    borderWidth: 2,
+    margin: 16,
+    paddingLeft: 10,
+    fontWeight: '800',
+  }
 });
