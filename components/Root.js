@@ -9,6 +9,8 @@ import {
 } from 'react-native';
 import colors from '../utils/styleColors';
 
+import TouchableListItem from './TouchableListItem';
+
 export default class Root extends Component {
 
   constructor(props) {
@@ -25,12 +27,10 @@ export default class Root extends Component {
 
   renderRow = (artist, sId, rId) => {
     return (
-      <View>
-          <View style={styles.row}>
-            <Text>
-              { rId }. { artist }
-            </Text>
-          </View>
+      <View style={styles.row}>
+          <TouchableListItem rid={ rId }
+            artist={ artist }
+            artistImage={ null } />
       </View>
     );
   };
@@ -78,11 +78,13 @@ const styles = StyleSheet.create({
     borderColor: colors.gray,
     borderWidth: 1,
     marginBottom: 10,
-    fontWeight: '800',
-    borderRadius: 3
+    fontWeight: '300',
+    borderRadius: 3,
+    padding: 10,
+
   },
   row: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'flex-start',
     padding: 10,
     backgroundColor: colors.white,
