@@ -30,7 +30,7 @@ export default class Root extends Component {
 
     return (
       <View style={styles.row}>
-          <TouchableListItem rid={ rId }
+          <TouchableListItem artistIndex={ rId }
             artist={ artist.name }
             artistImage={ imageUrl } />
       </View>
