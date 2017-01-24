@@ -7,10 +7,11 @@ import {
   Image,
 } from 'react-native';
 import colors from '../utils/styleColors';
+import RenderWithAnimation from './RenderWithAnimation'
 
 const placeholder = require('../assets/music-icon.jpg');
 
-const TouchableListItem = ({ artist, artistImage }) => {
+const TouchableListItem = ({ artistIndex, artist, artistImage }) => {
   const image = (
     artistImage ? { uri: artistImage } : placeholder
   );
@@ -19,10 +20,12 @@ const TouchableListItem = ({ artist, artistImage }) => {
     <TouchableOpacity
       underlayColor={ colors.gray }>
 
-      <View style={ styles.mediaObject }>
-        <Image source={ image } style={ styles.image } />
-        <Text style={ styles.text }>{ artist }</Text>
-      </View>
+      <RenderWithAnimation delay={ artistIndex * 25 }>
+        <View style={ styles.mediaObject }>
+          <Image source={ image } style={ styles.image } />
+          <Text style={ styles.text }>{ artist }</Text>
+        </View>
+      </RenderWithAnimation>
 
     </TouchableOpacity>
   );
@@ -50,6 +53,7 @@ const styles = StyleSheet.create({
 });
 
 TouchableListItem.propTypes = {
+  artistIndex: React.PropTypes.string,
   artist: React.PropTypes.string,
   artistImage: React.PropTypes.string,
 };
