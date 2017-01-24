@@ -8,8 +8,10 @@ import {
   View
 } from 'react-native';
 import colors from '../utils/styleColors';
-
 import TouchableListItem from './TouchableListItem';
+import { debounce } from 'lodash';
+import { searchArtist } from '../utils/api';
+
 
 export default class Root extends Component {
 
@@ -17,26 +19,27 @@ export default class Root extends Component {
     super(props);
 
     const dataSource = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => { console.log("row - ",r1,r2); return r1 !== r2},
+      rowHasChanged: (r1, r2) => r1 !== r2,
     });
 
-    const data = ['Rocky', 'Boogie', 'Hoodie', 'A Great Big World', 'Ferg', 'Salt', 'Salt', 'Salt', 'A Perfect Circle', 'Josh A', 'Twelvyy', 'Deadman', 'Just A Gent', 'Mob', 'Upon A Burning Body','Sir Mix-A-Lot'];
-
-    this.state = { artists: dataSource.cloneWithRows(data) };
+    this.state = { artists: dataSource };
   }
 
   renderRow = (artist, sId, rId) => {
+    const imageUrl = artist.images[0] ? artist.images[0].url : null;
+
     return (
       <View style={styles.row}>
           <TouchableListItem rid={ rId }
-            artist={ artist }
-            artistImage={ null } />
+            artist={ artist.name }
+            artistImage={ imageUrl } />
       </View>
     );
   };
 
   render() {
     const { artists } = this.state;
+
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
@@ -44,7 +47,8 @@ export default class Root extends Component {
         <Text style={styles.welcome}>
           Search for Artist!
         </Text>
-        <TextInput style={ styles.searchBox } />
+        <TextInput style={ styles.searchBox }
+            onChangeText={ this.getArtist }/>
 
         <ListView dataSource={ artists }
           style={{ flex: 1, alignSelf: 'stretch' }}
@@ -52,6 +56,18 @@ export default class Root extends Component {
       </View>
     );
   }
+
+  getArtist = debounce(artistName => {
+    searchArtist(artistName)
+      .then(artists => {
+        this.setState({
+          artists: this.state.artists.cloneWithRows(artists),
+        });
+      })
+      .catch((error) => {
+        throw error;
+      });
+  }, 400);
 }
 
 const styles = StyleSheet.create({
